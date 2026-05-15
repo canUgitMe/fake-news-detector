@@ -84,28 +84,59 @@ export default function Hero() {
 
             {/* Donut chart */}
             <div className="hero__donut-wrap">
-<svg
-  className="hero__donut"
-  viewBox="0 0 120 120"
-  width="170"
-  height="170"
->                {/* Track */}
-                <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(0,255,102,0.1)" strokeWidth="10"/>
-                {/* Progress - 87% */}
+              <svg className="hero__donut" viewBox="-10 -10 140 140" width="140" height="140">
+                <defs>
+                  {/*
+                    SVG feGaussianBlur filter — unlike CSS drop-shadow,
+                    this follows the actual stroke path geometry (circular),
+                    not the element bounding box (rectangular).
+                    x/y/width/height overflow so glow isn't clipped.
+                  */}
+                  <filter id="circleGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                {/* Track ring */}
+                <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(0,255,102,0.08)" strokeWidth="10"/>
+
+                {/*
+                  Outer soft glow layer — wider stroke, very transparent.
+                  Drawn first so it sits behind the main stroke.
+                  No bounding-box artifact because it uses SVG filter, not CSS.
+                */}
                 <circle
                   cx="60" cy="60" r="48"
                   fill="none"
-                  stroke="var(--neon-green)"
+                  stroke="rgba(0,255,102,0.25)"
+                  strokeWidth="18"
+                  strokeLinecap="round"
+                  strokeDasharray="301.59"
+                  strokeDashoffset="39.21"
+                  transform="rotate(-90 60 60)"
+                  filter="url(#circleGlow)"
+                />
+
+                {/* Main progress stroke — crisp on top */}
+                <circle
+                  cx="60" cy="60" r="48"
+                  fill="none"
+                  stroke="#00ff66"
                   strokeWidth="10"
                   strokeLinecap="round"
                   strokeDasharray="301.59"
                   strokeDashoffset="39.21"
                   transform="rotate(-90 60 60)"
-                  style={{ filter: 'drop-shadow(0 0 8px rgba(0,255,102,0.6))' }}
                 />
-                <text x="60" y="54" textAnchor="middle" fill="var(--neon-green)" fontSize="16" fontWeight="700" fontFamily="Space Grotesk">REAL</text>
-                <text x="60" y="70" textAnchor="middle" fill="var(--text-secondary)" fontSize="9" fontFamily="Space Grotesk">87%</text>
-                <text x="60" y="81" textAnchor="middle" fill="var(--text-muted)" fontSize="8" fontFamily="Space Grotesk">Confidence Score</text>
+
+                <text x="60" y="54" textAnchor="middle" fill="#00ff66" fontSize="16" fontWeight="700" fontFamily="Space Grotesk">REAL</text>
+                <text x="60" y="70" textAnchor="middle" fill="#a0a0a0" fontSize="9" fontFamily="Space Grotesk">87%</text>
+                <text x="60" y="81" textAnchor="middle" fill="#555" fontSize="8" fontFamily="Space Grotesk">Confidence Score</text>
               </svg>
             </div>
 
