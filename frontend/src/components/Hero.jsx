@@ -84,18 +84,11 @@ export default function Hero() {
 
             {/* Donut chart */}
             <div className="hero__donut-wrap">
-              <svg className="hero__donut" viewBox="-10 -10 140 140" width="140" height="140">
+              <svg className="hero__donut" viewBox="-6 -6 132 132" width="140" height="140">
                 <defs>
-                  {/*
-                    SVG feGaussianBlur filter — unlike CSS drop-shadow,
-                    this follows the actual stroke path geometry (circular),
-                    not the element bounding box (rectangular).
-                    x/y/width/height overflow so glow isn't clipped.
-                  */}
-                  <filter id="circleGlow" x="-30%" y="-30%" width="160%" height="160%">
-                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                  <filter id="circleGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="2.5" result="blur"/>
                     <feMerge>
-                      <feMergeNode in="blur"/>
                       <feMergeNode in="blur"/>
                       <feMergeNode in="SourceGraphic"/>
                     </feMerge>
@@ -105,16 +98,12 @@ export default function Hero() {
                 {/* Track ring */}
                 <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(0,255,102,0.08)" strokeWidth="10"/>
 
-                {/*
-                  Outer soft glow layer — wider stroke, very transparent.
-                  Drawn first so it sits behind the main stroke.
-                  No bounding-box artifact because it uses SVG filter, not CSS.
-                */}
+                {/* Soft glow layer — only slightly wider than main stroke */}
                 <circle
                   cx="60" cy="60" r="48"
                   fill="none"
-                  stroke="rgba(0,255,102,0.25)"
-                  strokeWidth="18"
+                  stroke="rgba(0,255,102,0.35)"
+                  strokeWidth="13"
                   strokeLinecap="round"
                   strokeDasharray="301.59"
                   strokeDashoffset="39.21"
@@ -122,7 +111,7 @@ export default function Hero() {
                   filter="url(#circleGlow)"
                 />
 
-                {/* Main progress stroke — crisp on top */}
+                {/* Main crisp stroke on top */}
                 <circle
                   cx="60" cy="60" r="48"
                   fill="none"
