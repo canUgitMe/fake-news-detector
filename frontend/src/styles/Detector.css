@@ -22,64 +22,67 @@
   border-right: 1px solid rgba(0,255,102,0.08);
   display: flex;
   flex-direction: column;
+  gap: 0;
 }
 
 .detector__eyebrow {
-  font-size: var(--text-xs);
+  font-size: 0.82rem;
   color: #a0a0a0;
   margin: 0 0 5px;
 }
 
 .detector__heading {
-  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-size: clamp(1.4rem,3.5vw,1.9rem);
   font-weight: 700;
   line-height: 1.2;
   margin: 0 0 10px;
-  color: #ffffff;
+  color: #fff;
   word-break: break-word;
 }
 
 .detector__accent { color: #00ff66; }
 
 .detector__sub {
-  font-size: var(--text-sm);
+  font-size: clamp(0.8rem,2vw,0.88rem);
   color: #a0a0a0;
   line-height: 1.65;
-  margin: 0 0 20px;
+  margin: 0 0 18px;
   word-break: break-word;
   overflow-wrap: break-word;
+  /* NO text-align justify - always left */
+  text-align: left;
 }
-.detector__sub strong { color: #ffffff; }
 
-/* ────────────────────────────────────────────────────────
+/* ─────────────────────────────────────────
    HOW-TO BOX
-   FIX: text-align left + word-break + overflow-wrap
-   This was causing stretched word-spacing on mobile.
-   The browser was trying to justify text inside a narrow
-   flex child, creating huge gaps between words.
-──────────────────────────────────────────────────────── */
+   Root cause of mobile text gaps was:
+   1. <strong> tags breaking inline flow
+   2. No explicit text-align: left
+   3. No overflow-wrap on list items
+   All three are now fixed below.
+───────────────────────────────────────── */
 .detector__howto {
   background: rgba(0,255,102,0.04);
   border: 1px solid rgba(0,255,102,0.12);
   border-radius: 10px;
-  padding: 13px 14px;
-  margin-bottom: 22px;
-  /* Prevent the box itself from overflowing */
-  min-width: 0;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  /* Prevent box overflow on small screens */
   overflow: hidden;
+  min-width: 0;
 }
 
 .detector__howto-title {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: var(--text-xs);
+  font-size: 0.78rem;
   font-weight: 700;
   color: #00ff66;
   margin-bottom: 10px;
-  flex-wrap: wrap;
-  /* No justify — left align only */
+  /* Plain left align — no justify */
   text-align: left;
+  word-break: break-word;
 }
 
 .detector__howto-list {
@@ -88,61 +91,59 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
+/* Each list item: icon + plain text span side by side */
 .detector__howto-list li {
   display: flex;
   align-items: flex-start;
   gap: 7px;
-  /* ── THE CRITICAL FIXES ──
-     1. text-align: left  → browser won't stretch word gaps
-     2. word-break: break-word → long words won't overflow
-     3. overflow-wrap: break-word → same, cross-browser
-     4. hyphens: none → no unwanted hyphens
-     5. white-space: normal → allow natural wrap
-  */
+  /* Force left alignment — this is what prevents word gap stretching */
   text-align: left;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  hyphens: none;
-  white-space: normal;
-  /* min-width: 0 allows flex children to shrink below content size */
+  /* Allow natural wrapping — no forced justify */
+  word-break: normal;
+  overflow-wrap: anywhere;
+  /* Allow flex child to shrink below content width */
   min-width: 0;
 }
 
+/* The text span inside each li */
 .detector__howto-list li span:last-child {
-  /* The text span inside each li */
-  font-size: clamp(0.72rem, 1.9vw, 0.78rem);
+  font-size: clamp(0.74rem,1.9vw,0.8rem);
   color: #a0a0a0;
-  line-height: 1.5;
-  /* Allow text to shrink and wrap naturally */
+  line-height: 1.55;
+  /* These three together prevent all text gap issues */
+  text-align: left;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  /* Allows text to shrink inside flex */
   flex: 1;
   min-width: 0;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  text-align: left;
+  /* No bold, no strong — plain weight only */
+  font-weight: 400;
 }
-
-.detector__howto-list strong { color: #ffffff; }
 
 .howto-good {
   color: #00ff66;
-  font-weight: 700;
+  font-weight: 600;
   flex-shrink: 0;
-  line-height: 1.5;
-  font-size: clamp(0.72rem, 1.9vw, 0.78rem);
+  font-size: clamp(0.74rem,1.9vw,0.8rem);
+  line-height: 1.55;
+  margin-top: 0;
 }
 
 .howto-bad {
   color: #ff4466;
-  font-weight: 700;
+  font-weight: 600;
   flex-shrink: 0;
-  line-height: 1.5;
-  font-size: clamp(0.72rem, 1.9vw, 0.78rem);
+  font-size: clamp(0.74rem,1.9vw,0.8rem);
+  line-height: 1.55;
+  margin-top: 0;
 }
 
-/* ── Features ── */
+/* ── Feature items ── */
 .detector__features {
   display: flex;
   flex-direction: column;
@@ -165,7 +166,7 @@
 }
 
 .detector__feat-title {
-  font-size: clamp(0.78rem, 2vw, 0.85rem);
+  font-size: clamp(0.78rem,2vw,0.85rem);
   font-weight: 600;
   color: #00ff66;
   margin: 0 0 2px;
@@ -173,7 +174,7 @@
 }
 
 .detector__feat-desc {
-  font-size: clamp(0.7rem, 1.8vw, 0.76rem);
+  font-size: clamp(0.7rem,1.8vw,0.76rem);
   color: #a0a0a0;
   margin: 0;
   word-break: break-word;
@@ -237,36 +238,38 @@
   background: rgba(255,165,0,0.07);
   border: 1px solid rgba(255,165,0,0.22);
   border-radius: 8px;
-  font-size: clamp(0.72rem, 1.9vw, 0.8rem);
+  font-size: clamp(0.74rem,1.9vw,0.8rem);
   color: #ffaa00;
-  line-height: 1.5;
-  animation: fadeIn 0.3s ease;
-  /* FIX: same text fix as howto-list */
+  line-height: 1.55;
   text-align: left;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  animation: fadeIn 0.3s ease;
 }
-.detector__nudge svg     { flex-shrink: 0; margin-top: 2px; }
-.detector__nudge strong  { color: #ffc740; }
-.detector__nudge span    { flex: 1; min-width: 0; }
+
+.detector__nudge span {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  font-weight: 400;
+}
 
 /* Textarea */
 .detector__textarea {
   width: 100%;
-  min-height: clamp(150px, 25vw, 210px);
+  min-height: clamp(150px,25vw,210px);
   background: rgba(10,10,10,0.9);
   border: 1px solid rgba(0,255,102,0.12);
   border-radius: 10px;
   padding: 13px 14px;
-  color: #ffffff;
+  color: #fff;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(0.82rem, 2.1vw, 0.9rem);
+  font-size: clamp(0.82rem,2.1vw,0.9rem);
   line-height: 1.65;
   resize: vertical;
   outline: none;
   transition: border-color 0.25s, box-shadow 0.25s;
   box-sizing: border-box;
-  /* Prevent textarea from causing horizontal overflow */
   max-width: 100%;
 }
 
@@ -277,7 +280,7 @@
 
 .detector__textarea::placeholder {
   color: #383838;
-  font-size: clamp(0.76rem, 2vw, 0.82rem);
+  font-size: clamp(0.76rem,2vw,0.82rem);
 }
 
 .textarea--warn { border-color: rgba(255,165,0,0.3) !important; }
@@ -297,7 +300,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .detector__clear {
@@ -332,11 +334,13 @@
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
 }
+
 .detector__analyze:hover:not(:disabled) {
   background: #00dd55;
   box-shadow: 0 0 26px rgba(0,255,102,0.45);
   transform: translateY(-1px);
 }
+
 .detector__analyze:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
 .detector__spin {
@@ -346,6 +350,7 @@
   border-radius: 50%;
   animation: spin 0.65s linear infinite;
 }
+
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Error */
@@ -359,14 +364,16 @@
   border-radius: 8px;
   font-size: clamp(0.76rem,2vw,0.82rem);
   color: #ff4466;
-  line-height: 1.5;
-  animation: fadeIn 0.3s ease;
-  word-break: break-word;
+  line-height: 1.55;
   text-align: left;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  animation: fadeIn 0.3s ease;
 }
-.detector__error svg { flex-shrink: 0; margin-top: 2px; }
 
-/* ── RESULT CARD ── */
+.detector__error span { flex: 1; min-width: 0; }
+
+/* ── RESULT ── */
 .detector__result {
   border-radius: 14px;
   padding: clamp(16px,4vw,24px);
@@ -378,23 +385,14 @@
   min-width: 0;
 }
 
-.result--real {
-  background: rgba(0,255,102,0.04);
-  border-color: rgba(0,255,102,0.25);
-  box-shadow: 0 0 26px rgba(0,255,102,0.06);
-}
-.result--fake {
-  background: rgba(255,68,102,0.04);
-  border-color: rgba(255,68,102,0.25);
-  box-shadow: 0 0 26px rgba(255,68,102,0.06);
-}
+.result--real { background: rgba(0,255,102,0.04); border-color: rgba(0,255,102,0.25); box-shadow: 0 0 26px rgba(0,255,102,0.06); }
+.result--fake { background: rgba(255,68,102,0.04); border-color: rgba(255,68,102,0.25); box-shadow: 0 0 26px rgba(255,68,102,0.06); }
 
 @keyframes resultIn {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Warning inside result */
 .detector__result-warning {
   display: flex;
   align-items: flex-start;
@@ -405,69 +403,60 @@
   border-radius: 8px;
   font-size: clamp(0.72rem,1.9vw,0.78rem);
   color: #ffaa00;
-  line-height: 1.5;
-  word-break: break-word;
+  line-height: 1.55;
   text-align: left;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
-.detector__result-warning svg    { flex-shrink: 0; margin-top: 1px; }
-.detector__result-warning strong { color: #ffc740; }
+
+.detector__result-warning span { flex: 1; min-width: 0; }
 
 /* Verdict */
 .detector__verdict {
   display: flex;
   align-items: center;
   gap: 16px;
-  flex-wrap: wrap;
 }
 
 .detector__verdict-icon {
-  width: 58px; height: 58px; min-width: 58px;
+  width: 56px; height: 56px; min-width: 56px;
   border-radius: 13px;
   display: flex; align-items: center; justify-content: center;
 }
-.icon--real {
-  background: rgba(0,255,102,0.12); color: #00ff66;
-  border: 1px solid rgba(0,255,102,0.3);
-  box-shadow: 0 0 16px rgba(0,255,102,0.15);
-}
-.icon--fake {
-  background: rgba(255,68,102,0.12); color: #ff4466;
-  border: 1px solid rgba(255,68,102,0.3);
-  box-shadow: 0 0 16px rgba(255,68,102,0.15);
-}
+
+.icon--real { background: rgba(0,255,102,0.12); color: #00ff66; border: 1px solid rgba(0,255,102,0.3); box-shadow: 0 0 16px rgba(0,255,102,0.15); }
+.icon--fake { background: rgba(255,68,102,0.12); color: #ff4466; border: 1px solid rgba(255,68,102,0.3); box-shadow: 0 0 16px rgba(255,68,102,0.15); }
 
 .detector__verdict-label {
-  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-size: clamp(1.6rem,5vw,2.2rem);
   font-weight: 800;
   letter-spacing: 0.04em;
   line-height: 1;
   margin-bottom: 5px;
   font-family: 'Space Grotesk', sans-serif;
 }
+
 .label--real { color: #00ff66; }
 .label--fake { color: #ff4466; }
 
-.detector__verdict-sub  { font-size: clamp(0.78rem,2vw,0.88rem); color: #888; }
+.detector__verdict-sub { font-size: clamp(0.78rem,2vw,0.88rem); color: #888; }
 .detector__verdict-sub span { font-weight: 600; }
 
 .detector__sep { height: 1px; background: rgba(255,255,255,0.05); }
 
-/* Meta */
 .detector__meta {
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
 }
-.detector__meta-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.detector__meta-icon  { font-size: 0.85rem; }
-.detector__meta-val   { font-size: 0.9rem; font-weight: 700; color: #fff; }
-.detector__meta-lbl   { font-size: 0.72rem; color: #555; }
-.detector__meta-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.07); }
+
+.detector__meta-item { display: flex; align-items: center; gap: 5px; }
+.detector__meta-icon { font-size: 0.85rem; }
+.detector__meta-val  { font-size: 0.88rem; font-weight: 700; color: #fff; }
+.detector__meta-lbl  { font-size: 0.72rem; color: #555; }
+.detector__meta-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.07); flex-shrink: 0; }
+
 .meta--good .detector__meta-lbl { color: #00ff66; }
 .meta--warn .detector__meta-lbl { color: #ffaa00; }
 
@@ -483,9 +472,9 @@
 }
 
 @media (max-width: 480px) {
-  .detector__btns { width: 100%; justify-content: flex-end; }
+  .detector__btns { flex-wrap: wrap; justify-content: flex-end; width: 100%; }
   .detector__analyze { flex: 1; justify-content: center; }
+  .detector__verdict { gap: 12px; }
   .detector__verdict-icon { width: 48px; height: 48px; min-width: 48px; }
   .detector__meta-divider { display: none; }
-  .detector__meta { gap: 8px; }
 }

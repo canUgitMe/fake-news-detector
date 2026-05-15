@@ -1,7 +1,7 @@
 /* frontend/src/styles/HowItWorks.css */
 
 .hiw {
-  padding: clamp(50px, 8vw, 80px) 20px;
+  padding: clamp(50px,8vw,80px) 20px;
 }
 
 .hiw__container {
@@ -9,52 +9,42 @@
   margin: 0 auto;
 }
 
-.hiw__outer {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* ── Number row ── */
-.hiw__num-row {
+/*
+  Single grid — each column owns its number badge AND its card.
+  This replaces the old two-grid approach where numbers and cards
+  were in separate rows that could drift apart on mobile.
+*/
+.hiw__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 0 16px;
   position: relative;
+}
+
+/* Each step is a flex column: number on top, card below */
+.hiw__step {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 16px;
+  animation: hiwFadeUp 0.6s ease both;
 }
 
-/* Single dashed connector spanning all 4 circles */
-.hiw__connector-line {
-  position: absolute;
-  top: 50%;
-  left: calc(100% / 8);
-  right: calc(100% / 8);
-  height: 2px;
-  transform: translateY(-50%);
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(0,255,102,0.45) 0px,
-    rgba(0,255,102,0.45) 8px,
-    transparent 8px,
-    transparent 18px
-  );
-  z-index: 0;
-  pointer-events: none;
-}
-
+/* Number row within each step */
 .hiw__num-wrap {
   display: flex;
-  justify-content: center;
   align-items: center;
+  width: 100%;
   position: relative;
-  z-index: 1;
+  justify-content: center;
 }
 
+/* The circle badge */
 .hiw__num {
   width: 38px;
   height: 38px;
   min-width: 38px;
-  background: var(--neon-green);
+  background: #00ff66;
   color: #000;
   font-weight: 700;
   font-size: 0.88rem;
@@ -63,49 +53,65 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 16px rgba(0,255,102,0.45), 0 0 32px rgba(0,255,102,0.15);
+  box-shadow: 0 0 16px rgba(0,255,102,0.5), 0 0 32px rgba(0,255,102,0.15);
   position: relative;
   z-index: 2;
+  flex-shrink: 0;
 }
 
-/* ── Card row ── */
-.hiw__card-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+/*
+  Connector line drawn from the right edge of each number
+  to the left edge of the next number.
+  Positioned absolutely so it sits between the two circles.
+*/
+.hiw__line {
+  position: absolute;
+  top: 50%;
+  /* Start just after the circle (19px = half of 38px) */
+  left: calc(50% + 19px);
+  /* End just before the next circle */
+  right: calc(-50% + 19px);
+  height: 2px;
+  transform: translateY(-50%);
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0,255,102,0.45) 0px,
+    rgba(0,255,102,0.45) 7px,
+    transparent 7px,
+    transparent 15px
+  );
+  z-index: 1;
 }
 
+/* Card */
 .hiw__card {
   background: #111111;
   border: 1px solid rgba(0,255,102,0.12);
   border-radius: 14px;
-  padding: clamp(20px, 4vw, 28px) clamp(14px, 3vw, 20px);
+  padding: clamp(18px,3.5vw,26px) clamp(14px,2.5vw,18px);
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 11px;
   transition: all 0.3s ease;
-  animation: hiwFadeUp 0.6s ease both;
+  flex: 1;
 }
 
 .hiw__card:hover {
   border-color: rgba(0,255,102,0.3);
   background: #141414;
   transform: translateY(-5px);
-  box-shadow: 0 16px 36px rgba(0,0,0,0.4), 0 0 18px rgba(0,255,102,0.07);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.4), 0 0 16px rgba(0,255,102,0.07);
 }
 
 .hiw__icon {
-  width: 64px;
-  height: 64px;
-  min-width: 64px;
+  width: 62px; height: 62px; min-width: 62px;
   background: rgba(0,255,102,0.07);
   border: 1px solid rgba(0,255,102,0.15);
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   transition: all 0.3s ease;
 }
 
@@ -116,60 +122,55 @@
 }
 
 .hiw__title {
-  font-size: clamp(0.88rem, 2.2vw, 1rem);
+  font-size: clamp(0.88rem,2.2vw,0.98rem);
   font-weight: 700;
-  color: #ffffff;
+  color: #fff;
   margin: 0;
-  word-break: break-word;
 }
 
 .hiw__desc {
-  font-size: clamp(0.76rem, 1.8vw, 0.84rem);
+  font-size: clamp(0.76rem,1.8vw,0.83rem);
   color: #a0a0a0;
   line-height: 1.6;
   margin: 0;
-  word-break: break-word;
+  /* Prevent text from stretching with justify */
+  text-align: center;
+  word-break: normal;
   overflow-wrap: break-word;
 }
 
 @keyframes hiwFadeUp {
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Responsive: tablet ── */
-@media (max-width: 860px) {
-  .hiw__num-row  { grid-template-columns: repeat(2, 1fr); gap: 14px 0; }
-  .hiw__card-row { grid-template-columns: repeat(2, 1fr); }
-  .hiw__connector-line { display: none; }
-
-  /* Show mini connectors between pairs */
-  .hiw__num-wrap:nth-child(1)::after,
-  .hiw__num-wrap:nth-child(3)::after {
-    content: '';
-    position: absolute;
-    top: 50%; left: calc(50% + 19px);
-    width: calc(100% - 38px);
-    height: 2px;
-    transform: translateY(-50%);
-    background: repeating-linear-gradient(
-      90deg,
-      rgba(0,255,102,0.4) 0, rgba(0,255,102,0.4) 6px,
-      transparent 6px, transparent 12px
-    );
-    z-index: 0;
+/* ── Tablet: 2 columns ── */
+@media (max-width: 800px) {
+  .hiw__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 16px;
   }
+
+  /* On 2-col layout, hide horizontal connectors — they go off-grid */
+  .hiw__line { display: none; }
+
+  .hiw__icon { width: 54px; height: 54px; min-width: 54px; }
 }
 
-/* ── Responsive: mobile ── */
-@media (max-width: 500px) {
-  .hiw__num-row  { grid-template-columns: repeat(2, 1fr); }
-  .hiw__card-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .hiw__icon     { width: 52px; height: 52px; min-width: 52px; }
-  .hiw__icon svg { width: 30px; height: 30px; }
+/* ── Mobile: still 2 columns (looks clean) ── */
+@media (max-width: 480px) {
+  .hiw__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 12px;
+  }
+
+  .hiw__num  { width: 34px; height: 34px; min-width: 34px; font-size: 0.82rem; }
+  .hiw__icon { width: 48px; height: 48px; min-width: 48px; }
+  .hiw__icon svg { width: 28px; height: 28px; }
+  .hiw__card { padding: 16px 12px; gap: 9px; }
 }
 
-@media (max-width: 360px) {
-  .hiw__card-row { grid-template-columns: 1fr; }
-  .hiw__num-row  { grid-template-columns: repeat(2, 1fr); }
+/* ── Very small phones: 1 column ── */
+@media (max-width: 340px) {
+  .hiw__grid { grid-template-columns: 1fr; gap: 20px; }
 }
