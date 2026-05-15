@@ -1,0 +1,105 @@
+/* frontend/src/styles/About.css */
+
+.about {
+  padding: 20px 20px clamp(50px,8vw,80px);
+}
+
+.about__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about__card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 20px;
+  padding: clamp(28px, 5vw, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 40px);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.about__card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,102,0.3), transparent);
+}
+
+.about__card:hover {
+  border-color: var(--border-card-hover);
+  box-shadow: 0 0 36px rgba(0,255,102,0.06);
+}
+
+.about__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.about__title {
+  font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  word-break: break-word;
+}
+
+.about__desc {
+  font-size: clamp(0.82rem, 2.1vw, 0.92rem);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 24px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+.about__cta { font-size: 0.86rem; padding: 10px 20px; }
+
+/* Illustration */
+.about__illustration {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.about__ill-bg {
+  position: absolute;
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, rgba(0,255,102,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.about__ill-svg {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 18px rgba(0,255,102,0.15));
+  animation: floatAbout 5s ease-in-out infinite;
+}
+
+@keyframes floatAbout {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .about__card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .about__cta     { margin: 0 auto; }
+  .about__ill-bg  { width: 120px; height: 120px; }
+  .about__ill-svg { width: 90px; height: 100px; }
+}
+
+@media (max-width: 480px) {
+  .about__illustration { display: none; }
+}

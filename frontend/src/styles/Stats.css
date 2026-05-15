@@ -1,0 +1,91 @@
+/* frontend/src/styles/Stats.css */
+
+.stats {
+  padding: 0 20px clamp(50px, 8vw, 80px);
+  width: 100%;
+}
+
+.stats__grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #111111;
+  border: 1px solid rgba(0,255,102,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.stats__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: clamp(24px,5vw,40px) 16px;
+  border-right: 1px solid rgba(0,255,102,0.08);
+  transition: background 0.3s ease;
+  position: relative;
+  text-align: center;
+}
+
+.stats__card:last-child { border-right: none; }
+
+.stats__card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--neon-green);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.stats__card:hover { background: rgba(0,255,102,0.03); }
+.stats__card:hover::after { width: 55%; }
+
+.stats__icon {
+  width: 50px; height: 50px; min-width: 50px;
+  background: rgba(0,255,102,0.07);
+  border: 1px solid rgba(0,255,102,0.15);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.stats__card:hover .stats__icon {
+  background: rgba(0,255,102,0.13);
+  border-color: rgba(0,255,102,0.3);
+  box-shadow: 0 0 16px rgba(0,255,102,0.15);
+}
+
+.stats__value {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.stats__label {
+  font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+  color: #a0a0a0;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .stats__grid { grid-template-columns: repeat(2, 1fr); }
+  .stats__card:nth-child(2) { border-right: none; }
+  .stats__card:nth-child(1),
+  .stats__card:nth-child(2) { border-bottom: 1px solid rgba(0,255,102,0.08); }
+}
+
+@media (max-width: 380px) {
+  .stats__icon { width: 42px; height: 42px; }
+  .stats__icon svg { width: 22px; height: 22px; }
+}

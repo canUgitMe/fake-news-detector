@@ -1,0 +1,172 @@
+/* frontend/src/styles/globals.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-card: #111111;
+  --bg-card-hover: #161616;
+  --neon-green: #00ff66;
+  --neon-green-dim: #00cc52;
+  --neon-green-glow: rgba(0, 255, 102, 0.15);
+  --neon-green-glow-strong: rgba(0, 255, 102, 0.3);
+  --border-card: rgba(0, 255, 102, 0.12);
+  --border-card-hover: rgba(0, 255, 102, 0.3);
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #555555;
+  --red-fake: #ff4466;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Responsive spacing scale */
+  --space-xs:  clamp(8px,  2vw, 12px);
+  --space-sm:  clamp(12px, 3vw, 20px);
+  --space-md:  clamp(20px, 4vw, 32px);
+  --space-lg:  clamp(32px, 6vw, 60px);
+  --space-xl:  clamp(48px, 8vw, 80px);
+
+  /* Responsive font scale */
+  --text-xs:   clamp(0.68rem, 1.8vw, 0.75rem);
+  --text-sm:   clamp(0.78rem, 2vw,   0.875rem);
+  --text-base: clamp(0.875rem,2.2vw, 1rem);
+  --text-lg:   clamp(1rem,    2.5vw, 1.125rem);
+  --text-xl:   clamp(1.2rem,  3vw,   1.5rem);
+  --text-2xl:  clamp(1.5rem,  4vw,   2rem);
+  --text-3xl:  clamp(1.8rem,  5vw,   2.5rem);
+  --text-4xl:  clamp(2rem,    6vw,   3.2rem);
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Prevent horizontal scroll globally ── */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  /* Prevents iOS bounce scroll from showing background */
+  background: var(--bg-primary);
+}
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent text size adjustment on orientation change (iOS) */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--neon-green-dim); border-radius: 3px; }
+
+/* ── Selection ── */
+::selection { background: var(--neon-green); color: #000; }
+
+/* ── Images & media ── */
+img, svg, video { max-width: 100%; display: block; }
+
+/* ── Section titles (shared) ── */
+.section-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.section-title span { color: var(--neon-green); }
+
+.section-underline {
+  width: 50px;
+  height: 3px;
+  background: var(--neon-green);
+  margin: 0 auto 2.5rem;
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--neon-green);
+}
+
+/* ── Background grid texture ── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, rgba(0,255,102,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  /* Hide on mobile to save paint cost */
+}
+
+@media (max-width: 480px) {
+  .bg-grid { display: none; }
+}
+
+/* ── Shared buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 24px;
+  background: var(--neon-green);
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  box-shadow: 0 0 20px var(--neon-green-glow-strong);
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary:hover {
+  background: #00dd55;
+  box-shadow: 0 0 30px var(--neon-green-glow-strong);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 24px;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-secondary:hover {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  background: var(--neon-green-glow);
+}
