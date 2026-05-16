@@ -1,11 +1,3 @@
-"""
-PHASE 1 — DATASET CLEANING & PREPROCESSING
-File: backend/preprocess.py
-
-Run: python preprocess.py
-Output: output/cleaned_fake_news.csv
-"""
-
 import pandas as pd
 import numpy as np
 import re

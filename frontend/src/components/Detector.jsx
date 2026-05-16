@@ -4,8 +4,8 @@ import '../styles/Detector.css';
 
 const MAX_CHARS = 10000;
 const MIN_WORDS = 50;
-const API_BASE  = process.env.REACT_APP_API_URL || '';
-const API_URL   = API_BASE + '/api/predict';
+// Hardcoded Render backend URL — no env variable dependency
+const API_URL   = 'https://fake-news-detector-api-vikp.onrender.com/api/predict';
 
 function countWords(str) {
   return str.trim().split(/\s+/).filter(function(w) { return w.length > 0; }).length;
@@ -269,13 +269,13 @@ export default function Detector() {
 
               <div className="detector__meta">
                 <div className="detector__meta-item">
-                  <span className="detector__meta-icon">📝</span>
+                  <span className="detector__meta-icon"></span>
                   <span className="detector__meta-val">{result.word_count}</span>
                   <span className="detector__meta-lbl">words</span>
                 </div>
                 <div className="detector__meta-divider"></div>
                 <div className="detector__meta-item">
-                  <span className="detector__meta-icon">🔤</span>
+                  <span className="detector__meta-icon"></span>
                   <span className="detector__meta-val">{result.text_length}</span>
                   <span className="detector__meta-lbl">characters</span>
                 </div>

@@ -23,14 +23,7 @@ app = Flask(__name__)
 # Multiple origins comma-separated:
 #   ALLOWED_ORIGINS=https://your-app.vercel.app,https://custom-domain.com
 # ─────────────────────────────────────────────────────────────
-_raw_origins = os.environ.get(
-    "ALLOWED_ORIGINS",
-    "http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000"
-)
-ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",") if o.strip()]
-logger.info(f"CORS allowed origins: {ALLOWED_ORIGINS}")
-
-CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # ─────────────────────────────────────────────────────────────
 # MODEL PATHS — relative to backend/ folder
